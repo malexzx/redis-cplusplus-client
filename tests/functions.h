@@ -2,8 +2,10 @@
 
 #include <string>
 #include <iostream>
+#include <time.h>
 
-#include <boost/date_time.hpp>
+#include <chrono>
+#include <iostream>
 
 using namespace std;
 
@@ -65,34 +67,37 @@ void assert_gt(const T & a, const T & b, int lineno)
 
 void test(const string & name);
 
-inline boost::posix_time::ptime now()
-{
-  return boost::posix_time::microsec_clock::local_time();
-}
+typedef std::chrono::high_resolution_clock Time;
+typedef std::chrono::milliseconds ms;
+typedef std::chrono::duration<float> fsec;
 
 class block_duration
 {
 public:
   explicit block_duration(const std::string & job_name, size_t count = 0)
-  : start_(now()), job_name_(job_name), count_(count)
+  : start_(Time::now()), job_name_(job_name), count_(count)
   {
     cerr << "------------------------------" << endl;
   }
   
   ~block_duration()
   {
-    boost::posix_time::ptime end = now();
-    cerr << job_name_ << " took " << (end-start_) << " (" << count_ << " items)" << endl;
+    decltype(Time::now()) end = Time::now();
+    fsec fs = end - start_;
+    ms d = std::chrono::duration_cast<ms>(fs);
+
+    cerr << job_name_ << " took " << d.count() << "ms " << count_ << " items)" << endl;
     if(count_ > 0)
     {
-      cerr << (end-start_).total_milliseconds()/(double)count_ << "ms per item" << endl;
-      cerr << (double)count_/(end-start_).total_milliseconds()*1000 << " items per second" << endl;
+      cerr << d.count()/(double)count_ << "ms per item" << endl;
+      cerr << (double)count_/ d.count() * 1000 << " items per second" << endl;
     }
     cerr << "------------------------------" << endl;
   }
   
 private:
-  boost::posix_time::ptime start_;
+  decltype(Time::now()) start_;
   std::string job_name_;
   size_t count_;
 };
+

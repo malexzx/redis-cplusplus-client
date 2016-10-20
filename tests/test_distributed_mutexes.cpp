@@ -98,7 +98,7 @@ struct unsave_increment_in_mutex
     ASSERT_EQUAL(dist_int.to_int() >= count, true);
   }
 
-  boost::shared_ptr<redis::client> shr_c;
+  std::shared_ptr<redis::client> shr_c;
   int count;
   redis::distributed_mutex mutex;
 };

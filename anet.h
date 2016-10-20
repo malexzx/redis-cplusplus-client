@@ -35,6 +35,10 @@
 #define ANET_ERR -1
 #define ANET_ERR_LEN 256
 
+#ifdef  __cplusplus
+extern  "C" {
+#endif
+
 int anetTcpConnect(char *err, char *addr, int port);
 int anetTcpNonBlockConnect(char *err, char *addr, int port);
 int anetRead(int fd, char *buf, int count);
@@ -45,5 +49,9 @@ int anetWrite(int fd, char *buf, int count);
 int anetNonBlock(char *err, int fd);
 int anetTcpNoDelay(char *err, int fd);
 int anetTcpKeepAlive(char *err, int fd);
+
+#ifdef  __cplusplus
+}
+#endif
 
 #endif

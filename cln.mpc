@@ -1,0 +1,26 @@
+project(redis_cln) : staticwin {
+  sharedname   = 
+  staticname   = redis_cln
+  dynamicflags =
+  libout       = $(ACE_ROOT)/lib
+  includes += $(LIB_C_ROOT)/contrib .
+  Source_Files {
+    anet_impl.c
+  }
+}
+
+
+project(redis_tst){
+  exename = redis_tst
+  includes += $(LIB_C_ROOT)/contrib tests .
+  specific (prop:microsoft) {
+    lit_libs += ws2_32
+  }
+  libpaths   += $(ACE_ROOT)/lib
+  libs       += redis_cln
+  after      += redis_cln
+  Source_Files {
+    test_client.cpp
+    tests/*.cpp
+  }
+}

@@ -62,7 +62,11 @@ void test_distributed_strings(redis::client & c)
     sh_str1.expire(100);
     int ttl = sh_str1.ttl();
     ASSERT_EQUAL(ttl > 0, true);
+#ifdef _WIN32
+    Sleep(1000);
+#else
     sleep(1);
+#endif
     ASSERT_EQUAL(ttl > sh_str1.ttl(), true);
     
     ASSERT_EQUAL(sh_str1.type(), redis::client::datatype_string);

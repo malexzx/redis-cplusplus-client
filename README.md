@@ -1,8 +1,8 @@
 # A C++ client for Redis 
 
-- Depends on c++ boost library
+- Depends on c++ boost library (header only), c++11
 - It uses anet from Redis itself
-- It has been tested with g++ on Linux (and older versions also on Mac OS X 10.5)
+- It has been tested with g++ 4.8.5 on Linux and HP-UX (and older versions also on Mac OS X 10.5), vc2015 on Windows 
 - Sharding (consistent hashing with support for user-specified algorithm)
 
 ## Notes on consistent hashing / sharding
@@ -39,3 +39,4 @@ This client is licensed under the same license as redis.
 
 - Brian Hammond <brian at fictorial dot com>   (intial 'fictorial' release)
 - Ludger Sprenker <ludger at sprenker dot net> ('mrpi' release: extensions and changes for redis versions greater 1.1)
+- Aleksander Melnikov <alm at sibmail dot ru> (collect changes from fork's)

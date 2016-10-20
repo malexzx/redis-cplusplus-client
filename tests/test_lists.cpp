@@ -162,7 +162,7 @@ void test_lists(redis::client & c)
     {
       c.lrem_exact("list1", 5, "z");
     }
-    catch (redis::value_error & e)
+    catch (redis::value_error & /*e*/)
     {
       threw = true;
     }

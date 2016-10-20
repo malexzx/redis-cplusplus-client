@@ -126,7 +126,7 @@ void benchmark(redis::client & c, int TEST_SIZE)
     cout << "====== Value size: " << val.size() <<  " ======" << endl;
     cout << endl;
 
-    TEST_SIZE = TEST_SIZE/1.35;
+    TEST_SIZE = int(TEST_SIZE/1.35);
     
     c.flushdb();
     benchmark_set (c, TEST_SIZE, val);

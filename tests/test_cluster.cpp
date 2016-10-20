@@ -4,26 +4,27 @@
 
 void test_cluster_dbsize(redis::client & c)
 {
-  redis::client::int_type count;
+  redis::client::int_type count = 0;
   for(size_t i=0; i < c.connections().size(); i++)
   {
     redis::client::int_type curSize = c.dbsize( c.connections()[i] );
     cerr << "DB#" << i << " contains " << curSize << " keys" << endl;
     count += curSize;
+    &count;
   }
   ASSERT_EQUAL( count, c.dbsize() );
 }
 
-boost::shared_ptr<redis::client> init_non_cluster_client()
+std::shared_ptr<redis::client> init_non_cluster_client()
 {
   const char* c_host = getenv("REDIS_HOST");
   string host = "localhost";
   if(c_host)
     host = c_host;
-  return boost::shared_ptr<redis::client>( new redis::client(host) );
+  return std::shared_ptr<redis::client>( new redis::client(host) );
 }
 
-boost::shared_ptr<redis::client> init_cluster_client()
+std::shared_ptr<redis::client> init_cluster_client()
 {
   vector<redis::connection_data> redis_server;
 
@@ -65,7 +66,7 @@ boost::shared_ptr<redis::client> init_cluster_client()
     redis_server.push_back(con);
   }
 
-  boost::shared_ptr<redis::client> cluster(
+  std::shared_ptr<redis::client> cluster(
     new redis::client(redis_server.begin(), redis_server.end() )
   );
   return cluster;
